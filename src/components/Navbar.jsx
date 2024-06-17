@@ -4,8 +4,8 @@ import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { useSelector } from "react-redux";
-import { Link, Route, Routes } from "react-router-dom";
-import Phone from "../pages/SignIN";
+import { Link } from "react-router-dom";
+import hoodie from "../pages/Image/hoodie.jpeg";
 
 
 const Container = styled.div`
@@ -28,7 +28,8 @@ const Left = styled.div`
 `;
 
 const Language = styled.span`
-  font-size: 14px; font-weight: bold;
+  font-size: 14px; 
+  font-weight: bold;
   cursor: pointer;
   ${mobile({ display: "none" })}
 `;
@@ -51,6 +52,9 @@ const Center = styled.div`
   text-align: center;
 `;
 
+const LogoImage= styled.img`
+ height: 2rem;
+ `;
 const Logo = styled.h1`
   font-weight: bold;
   ${mobile({ fontSize: "24px" })}
@@ -84,15 +88,18 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center >
-          <Logo>APPAREL.</Logo>
+          <LogoImage src={hoodie} style={{ marginLeft: "18em"}} />
+        </Center >
+          <Center>
+          <Logo style={{ marginRight: "10em"}}>APPAREL</Logo>
         </Center>
         <Right>
-          <Link to="/signIN">
-          <MenuItem>PHONE</MenuItem>
+          <Link to="/register">
+          <MenuItem>REGISTER</MenuItem> 
           </Link>
-          
-          <MenuItem>REGISTER</MenuItem>
+          <Link to="/login">
           <MenuItem>SIGN IN</MenuItem>
+          </Link>
           <Link to="/cart">
           <MenuItem>
           <Badge badgeContent={quantity} color="primary">

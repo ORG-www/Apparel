@@ -1,14 +1,14 @@
-import { Add, Remove } from "@material-ui/icons";
-import { useSelector } from "react-redux";
+import { Remove } from "@material-ui/icons";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
-import StripeCheckout from "react-stripe-checkout";
-import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
 import { useNavigate } from "react-router";
+import { removeProduct, setPaymentId, clearCart } from "../redux/cartRedux"
+
 
 const KEY = process.env.REACT_APP_STRIPE;
 
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  font-weight: 300;
+  font-weight: 700;
   text-align: center;
 `;
 
@@ -37,8 +37,9 @@ const TopButton = styled.button`
   cursor: pointer;
   border: ${(props) => props.type === "filled" && "none"};
   background-color: ${(props) =>
-    props.type === "filled" ? "black" : "transparent"};
+    props.type === "filled" ? "#1f1f1f" : "transparent"};
   color: ${(props) => props.type === "filled" && "white"};
+  border-radius:3px;
 `;
 
 const TopTexts = styled.div`
@@ -48,6 +49,7 @@ const TopText = styled.span`
   text-decoration: underline;
   cursor: pointer;
   margin: 0px 10px;
+  font-weight: 550;
 `;
 
 const Bottom = styled.div`
@@ -152,36 +154,80 @@ const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
 
 const Button = styled.button`
-  width: 100%;
-  padding: 10px;
-  background-color: black;
-  color: white;
-  font-weight: 600;
+width: 100%;
+padding: 10px;
+background-color: #1f1f1f;
+color: white;
+font-weight: 600;
+border-radius: 6px;
 `;
+
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
-  const [stripeToken, setStripeToken] = useState(null);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onToken = (token) => {
-    setStripeToken(token);
+  console.log(cart);
+
+
+  const handlePaymentSuccess = async (razorpay_payment_id) => {
+    try {
+      const response = await userRequest.post('/checkout/paymentverified', {
+        
+        razorpay_payment_id
+      });
+      console.log(response.data);
+      dispatch(setPaymentId(response.data.razorpay_payment_id)); // Dispatch the setPaymentId action
+      navigate('/success');
+    
+    } catch (error) {
+      console.log(error.response);
+    }
   };
 
-  useEffect(() => {
-    const makeRequest = async () => {
-      try {
-        const res = await userRequest.post("/checkout/payment", {
-          tokenId: stripeToken.id,
-          amount: 500,
-        });
-        navigate.push("/success", {
-          stripeData: res.data,
-          products: cart, });
-      } catch {}
+  const handleRemoveProduct = (productId) => {
+    dispatch(removeProduct(productId));
+    console.log(cart);
+  };
+
+  // const handleClearCart = () => {
+  //   dispatch(clearCart());
+  // };
+
+  const initiatePayment = async () => {
+    // try {
+    const response = await userRequest.post('/checkout/payment', {
+      amount: cart.total * 100,
+      currency: 'INR',
+      receipt: 'order_receipt',
+    });
+
+
+    const options = {
+      key: 'rzp_test_wA6esEhlGRRXS5',
+      amount: response.data.amount,
+      currency: response.data.currency,
+      name: 'APPAREL.',
+      description: 'Payment for Your Order',
+      order_id: response.data.id,
+      handler: handlePaymentSuccess,
+      prefill: {
+        email: 'test@example.com',
+        contact: '9999999999',
+      },
+      theme: {
+        color: '#51555C',
+      },
     };
-    stripeToken &&  makeRequest();
-  }, [stripeToken, cart.total, navigate]);
+
+    const razorpayCheckout = new window.Razorpay(options);
+    razorpayCheckout.open();
+    // } catch (error) {
+    //   console.log(error.message); 
+    // }
+  };
   return (
     <Container>
       <Navbar />
@@ -189,7 +235,7 @@ const Cart = () => {
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
+          <TopButton onClick={() => navigate("/")}>CONTINUE SHOPPING</TopButton>
           <TopTexts>
             <TopText>Shopping Bag(2)</TopText>
             <TopText>Your Wishlist (0)</TopText>
@@ -199,14 +245,14 @@ const Cart = () => {
         <Bottom>
           <Info>
             {cart.products.map((product) => (
-              <Product>
+              <Product key={product._id}>
                 <ProductDetail>
                   <Image src={product.img} />
                   <Details>
                     <ProductName>
                       <b>Product:</b> {product.title}
                     </ProductName>
-                    <ProductId>
+                    <ProductId> 
                       <b>ID:</b> {product._id}
                     </ProductId>
                     <ProductColor color={product.color} />
@@ -217,9 +263,8 @@ const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Add />
                     <ProductAmount>{product.quantity}</ProductAmount>
-                    <Remove />
+                    <Remove onClick={() => handleRemoveProduct(product._id)} />
                   </ProductAmountContainer>
                   <ProductPrice>
                     $ {product.price * product.quantity}
@@ -247,18 +292,10 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <StripeCheckout
-              name="APPAREL SHOP"
-              image="https://avatars.githubusercontent.com/u/1486366?v=4"
-              billingAddress
-              shippingAddress
-              description={`Your total is $${cart.total}`}
-              amount={cart.total * 100}
-              token={onToken}
-              stripeKey={KEY}
-            >
-              <Button>CHECKOUT NOW</Button>
-            </StripeCheckout>
+            <Button 
+            disabled={cart.products.length === 0 && cart.total === 0}
+            onClick={initiatePayment}>
+            CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
       </Wrapper>

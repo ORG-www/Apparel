@@ -8,6 +8,7 @@ import {
     Twitter,
   } from "@material-ui/icons";
   import styled from "styled-components";
+  import { useNavigate } from "react-router";
   import { mobile } from "../responsive";
   
   const Container = styled.div`
@@ -65,6 +66,8 @@ import {
   const ListItem = styled.li`
     width: 50%;
     margin-bottom: 10px;
+    color: teal;
+    cursor: pointer;
   `;
   
   const Right = styled.div`
@@ -84,12 +87,14 @@ import {
   `;
   
   const Footer = () => {
+    const navigate = useNavigate();
+
     return (
       <Container>
         <Left>
           <Logo>APPAREL.</Logo>
           <Desc>
-            This brand is founded by Shreya Shukla
+            The brand Apparel is developed by Chaitanya
           </Desc>
           <SocialContainer>
             <SocialIcon color="3B5999">
@@ -109,16 +114,12 @@ import {
         <Center>
           <Title>Useful Links</Title>
           <List>
-            <ListItem>Home</ListItem>
-            <ListItem>Cart</ListItem>
+            <ListItem onClick={() => navigate("/")}>Home</ListItem>
+            <ListItem onClick={() => navigate("/cart")}>Cart</ListItem>
             <ListItem>Man Fashion</ListItem>
             <ListItem>Woman Fashion</ListItem>
             <ListItem>Accessories</ListItem>
-            <ListItem>My Account</ListItem>
-            <ListItem>Order Tracking</ListItem>
             <ListItem>Wishlist</ListItem>
-            <ListItem>Wishlist</ListItem>
-            <ListItem>Terms</ListItem>
           </List>
         </Center>
         <Right>
@@ -130,7 +131,7 @@ import {
             <Phone style={{marginRight:"10px"}}/> +91 7985871402
           </ContactItem>
           <ContactItem>
-            <MailOutline style={{marginRight:"10px"}} /> sharmachaitanyaind@gmail.com
+            <MailOutline style={{marginRight:"10px"}} /> chaitanyaind2022@gmail.com
           </ContactItem>
           <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
         </Right>

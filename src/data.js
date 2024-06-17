@@ -1,33 +1,31 @@
 export const sliderItems = [
-    {
-      id: "name",
-      // img: "https://photos.google.com/search/_cAF1QipPY0Z1sxRk13ndkZveu-txdH~uts6kbOQDk_/photo/AF1QipPy3LuXDzzmxgYs2yE2fnsOOV0DevRwZu0IiRRe",
-      title: "Personalize your experience",
-      desc: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
-      cap:"What should we call you?",
-      // bg: "f5fafd",
-      completed: 25,
-      
-      
-    },
+
+  {
+    id: "name",
+    img: "https://i.ibb.co/y84Qrdn/Whats-App-Image-2023-08-01-at-14-55-17.jpg",
+    title: "What's in my Clothes?",
+    desc: "Discover your unique fashion rhythm at Apparel, where creativity and self-expression meet trendsetting styles. Embrace chic elegance or daring innovation, and make a fashion statement that's uniquely yours.",
+    bg: "d9d8d8",
+    completed: 25,
+  },
     {
       id: "age",
-      // img: "https://i.ibb.co/DG69bQ4/2.png",
-      title: "Personalize your experience",
-      desc: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
-      cap:"How old are you?",
-      // bg: "fcf1ed",
-      completed: 50,
+      img: "https://i.ibb.co/DG69bQ4/2.png",
+      title: "Your style sanctuary, where clothing becomes Art and Aesthetic",
+      desc: "",
+      bg: "fcf1ed",
+      completed: 50, 
     },
-    // {
-    //   id: "gender",
-    //   // img: "https://i.ibb.co/cXFnLLV/3.png",
-    //   title: "Personalize your experience",
-    //   desc: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
-    //   cap:"What should we call you?",
-    //   Optionsarray: [ "Male", "Female", "Non-Binary"],
-    //   completed: 75,
-    // },
+  
+    {
+      id: "gender",
+      // img: "https://i.ibb.co/cXFnLLV/3.png",
+      img: "https://i.ibb.co/JQw29p1/Kangaroo-Pocket-Hooded-Jacket.jpg",
+      title: "Find Your Fashion Rhythm – Our Platform, Your Beat",
+      desc: "",
+      bg: "ede7e3",
+      completed: 75,
+    },
     {
       id: "language",
       title: "What Are Your Preferences",

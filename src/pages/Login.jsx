@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 
 const Container = styled.div`
   width: 100vw;
@@ -41,6 +42,7 @@ const Input = styled.input`
   min-width: 40%;
   margin: 10px 0;
   padding: 10px;
+  font-weight: 500;
 `;
 
 const Button = styled.button`
@@ -62,6 +64,7 @@ const Link = styled.a`
   font-size: 12px;
   text-decoration: underline;
   cursor: pointer;
+  font-weight: 500;
 `;
 
 const Error = styled.span`
