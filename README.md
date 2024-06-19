@@ -1,3 +1,16 @@
+APPAREL, is MERN stack based ecommerce clothing app. It is designed using ReactJS, NodeJS, Express, and MongoDB. Redux is implemented for cart, store and user state updation. JWT is used for authentication. I have used Razorpay API for payment of the items.
+I have also used persistence of the state in the cart for any specific user.
+
+<img src= shop/Screenshot%202024-06-17%20195857.png>
+<img src= shop/Screenshot%202024-06-17%20195929.png>
+<img src= shop/Screenshot%202024-06-17%20200005.png>
+<img src= shop/Screenshot%202024-06-17%20200029.png>
+<img src= shop/Screenshot%202024-06-17%20195857.png>
+<img src= shop/Screenshot%202024-06-17%20200227.png>
+<img src= shop/Screenshot%202024-06-17%20203116.png>
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
